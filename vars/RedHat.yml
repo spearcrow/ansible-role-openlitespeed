@@ -1,0 +1,15 @@
+---
+lsphp_module:
+  - lsphp72
+  - lsphp72-common
+  - lsphp72-devel
+  - lsphp72-gd
+  - lsphp72-mbstring
+  - lsphp72-mysqlnd
+  - lsphp72-pdo
+  - lsphp72-pear
+  - lsphp72-pecl-igbinary
+  - lsphp72-pecl-msgpack
+  - lsphp72-pecl-redis
+  - lsphp72-process
+  - lsphp72-xml

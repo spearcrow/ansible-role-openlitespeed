@@ -1,0 +1,23 @@
+---
+- name: Add OpenLitespeed signing key
+  apt_key:
+    url: '{{ item }}'
+    state: present
+  loop:
+    - http://rpms.litespeedtech.com/debian/lst_debian_repo.gpg
+    - http://rpms.litespeedtech.com/debian/lst_repo.gpg
+
+- name: Install OpenLitespeed repository
+  apt_repository:
+    repo: 'deb http://rpms.litespeedtech.com/debian/ {{ ansible_distribution_release }} main'
+    filename: lst_debian_repo
+
+- name: Install OpenLitespeed
+  apt:
+    name: openlitespeed
+    state: present
+
+- name: Install LSPHP packages
+  apt:
+    name: '{{ lsphp_module }}'
+    state: present

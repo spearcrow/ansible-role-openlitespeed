@@ -1,0 +1,13 @@
+---
+- name: Add OpenLiteSpeed repository
+  yum:
+    name: 'http://rpms.litespeedtech.com/centos/litespeed-repo-1.1-1.el{{ ansible_distribution_major_version }}.noarch.rpm'
+
+- name: Install OpenLiteSpeed
+  yum:
+    name: openlitespeed
+
+- name: Install PHP modules
+  yum:
+    name: '{{ lsphp_module }}'
+    state: present

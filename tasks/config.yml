@@ -1,0 +1,48 @@
+---
+- name: Setup OpenLiteSpeed main config
+  template:
+    src: lsws/conf/httpd_config.conf.j2
+    dest: /usr/local/lsws/conf/httpd_config.conf
+    owner: lsadm
+    group: lsadm
+  notify: restart lsws
+
+- name: Add user domain
+  user:
+    name: '{{ item.user }}'
+    state: present
+    create_home : no
+  loop: '{{ openlitespeed_vhost_sites }}'
+
+- name: Create virtual host docs directory
+  file:
+    path: '/home/{{ item.user }}/web/{{ item.domain }}/public_html'
+    state: directory
+    owner: '{{ item.user }}'
+    group: '{{ item.group }}'
+  loop: '{{ openlitespeed_vhost_sites }}'
+
+- name: Create virtual host logs directory
+  file:
+    path: '/home/{{ item.user }}/logs'
+    state: directory
+    owner: '{{ item.user }}'
+    group: '{{ item.group }}'
+  loop: '{{ openlitespeed_vhost_sites }}'
+
+- name: Create virtual host conf directory
+  file:
+    path: '/usr/local/lsws/conf/vhosts/{{ item.domain }}'
+    state: directory
+    owner: lsadm
+    group: lsadm
+  loop: '{{ openlitespeed_vhost_sites }}'
+
+- name: Set virtual host
+  template:
+    src: lsws/conf/vhosts/vhconf.conf.j2
+    dest: '/usr/local/lsws/conf/vhosts/{{ item.domain }}/vhconf.conf'
+    owner: lsadm
+    group: lsadm
+  notify: restart lsws
+  loop: '{{ openlitespeed_vhost_sites }}'

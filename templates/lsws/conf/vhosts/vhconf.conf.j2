@@ -1,0 +1,72 @@
+# {{ ansible_managed }}
+
+docRoot                 $VH_ROOT/web/$VH_NAME/public_html
+vhDomain                $VH_NAME
+{% if item.aliases is defined and item.aliases != [] %}
+vhAliases               {% for alias in item.aliases %}{{ alias }}{{ ", " if not loop.last else "" }}{% endfor %}
+{% endif %}
+
+adminEmails             {{ item.admin | default(server_admin) }}
+enableGzip              1
+enableIpGeo             1
+
+index  {
+    useServer           0
+    indexFiles          index.php, index.html
+}
+
+errorlog $VH_ROOT/logs/$VH_NAME.error_log {
+    useServer           0
+    logLevel            ERROR
+    rollingSize         10M
+}
+
+accesslog $VH_ROOT/logs/$VH_NAME.access_log {
+    useServer           0
+    logFormat           %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"
+    logHeaders          5
+    rollingSize         10M
+    keepDays            10
+    compressArchive     1
+}
+
+scripthandler  {
+    add                 lsapi:{{ item.user }} php
+}
+
+extprocessor {{ item.user }} {
+    type                lsapi
+    address             uds://tmp/lshttpd/$VH_NAME.sock
+    maxConns            10
+    env                 LSAPI_CHILDREN=10
+    initTimeout         600
+    retryTimeout        0
+    persistConn         1
+    pcKeepAliveTimeout  1
+    respBuffer          0
+    autoStart           1
+    path                /usr/local/lsws/{{ item.lsphp_version }}/bin/lsphp
+    extUser             {{ item.user }}
+    extGroup            {{ item.group }}
+    memSoftLimit        2047M
+    memHardLimit        2047M
+    procSoftLimit       400
+    procHardLimit       500
+}
+
+phpIniOverride  {
+    php_admin_value open_basedir "$VH_ROOT:/tmp"
+}
+
+rewrite  {
+    enable              1
+    autoLoadHtaccess    1
+}
+
+{% if item.ssl.enabled %}
+vhssl  {
+  keyFile               {{ item.ssl.ssl_certificate_key }}
+  certFile              {{ item.ssl.ssl_certificate }}
+  certChain             1
+}
+{% endif %}

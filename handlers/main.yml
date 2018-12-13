@@ -1,0 +1,5 @@
+---
+- name: restart lsws
+  service:
+    name: lsws
+    state: restarted

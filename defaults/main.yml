@@ -1,0 +1,18 @@
+---
+olws_listen_addr: '*'
+olws_http_port: 80
+olws_https_port: 443
+
+openlitespeed_vhost_sites:
+  - domain: example.com
+    aliases: [
+      www.$VH_NAME
+    ]
+    ssl:
+      enabled: True,
+      ssl_certificate: /path/to/ssl/certificate
+      ssl_certificate_key: /path/to/ssl/certificate_key
+    user: example
+    group: example
+    admin: admin@example.com
+    lsphp_version: lsphp72
