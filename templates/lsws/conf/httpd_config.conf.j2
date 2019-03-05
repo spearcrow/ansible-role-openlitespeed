@@ -3,7 +3,7 @@
 #
 
 #It not set, will use host name as serverName
-serverName                  {{ server_hostname }}
+serverName                  {{ server_hostname | default(ansible_fqdn) }}
 user                        nobody
 {% if ansible_distribution == 'Debian' %}
 group                       nogroup
@@ -20,7 +20,7 @@ autoFix503                  1
 gracefulRestartTimeout      300
 mime                        $SERVER_ROOT/conf/mime.properties
 showVersionNumber           0
-adminEmails                 {{ server_admin }}
+adminEmails                 {{ server_admin | default('root') }}
 adminRoot                   $SERVER_ROOT/admin/
 indexFiles                  index.html, index.php
 disableWebAdmin             0
@@ -237,7 +237,7 @@ module cache {
 
 {% if openlitespeed_vhost_sites is defined and openlitespeed_vhost_sites != [] %}
 listener Default {
-    address             {{ olws_listen_addr }}:{{ olws_http_port }}
+    address             {{ olsws_listen_addr }}:{{ olsws_http_port }}
     secure              0
 {%  for item in openlitespeed_vhost_sites %}
     map                 {{ item.domain }} {{ item.domain }}
@@ -245,7 +245,7 @@ listener Default {
 }
 
 listener SSL {
-    address             {{ olws_listen_addr }}:{{ olws_https_port }}
+    address             {{ olsws_listen_addr }}:{{ olsws_https_port }}
     secure              1
     keyFile             $SERVER_ROOT/admin/conf/webadmin.key
     certFile            $SERVER_ROOT/admin/conf/webadmin.crt

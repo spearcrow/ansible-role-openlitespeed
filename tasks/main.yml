@@ -1,10 +1,13 @@
 ---
-- name: Include {{ ansible_os_family }} variables
-  include_vars: '{{ ansible_os_family }}.yml'
+- name: Include OS-specific variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
 
 - name: Install OpenLiteSpeed
   include_tasks: 'install-{{ ansible_os_family }}.yml'
-  tags: [ 'openlitespeed-install' ]
+  tags: ['openlitespeed-install']
 
 - name: Configure OpenLiteSpeed
   import_tasks: 'config.yml'
@@ -13,4 +16,4 @@
   service:
     name: lsws
     state: started
-    enabled: yes
+    enabled: true

@@ -1,7 +1,7 @@
 ---
-olws_listen_addr: '*'
-olws_http_port: 80
-olws_https_port: 443
+olsws_listen_addr: '*'
+olsws_http_port: 80
+olsws_https_port: 443
 
 openlitespeed_vhost_sites:
   - domain: example.com

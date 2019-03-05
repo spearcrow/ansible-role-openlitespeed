@@ -11,7 +11,7 @@
   user:
     name: '{{ item.user }}'
     state: present
-    create_home : no
+    create_home: false
   loop: '{{ openlitespeed_vhost_sites }}'
 
 - name: Create virtual host docs directory

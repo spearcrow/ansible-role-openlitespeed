@@ -1,4 +1,8 @@
 ---
+- name: Install EPEL repository
+  yum:
+    name: epel-release
+
 - name: Add OpenLiteSpeed repository
   yum:
     name: 'http://rpms.litespeedtech.com/centos/litespeed-repo-1.1-1.el{{ ansible_distribution_major_version }}.noarch.rpm'
