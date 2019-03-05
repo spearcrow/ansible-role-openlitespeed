@@ -1,7 +1,8 @@
 ---
-- name: Install EPEL repository
+
+- name: Install OpenLiteSpeed dependencies
   yum:
-    name: epel-release
+    name: "{{ olsws_dependencies }}"
 
 - name: Add OpenLiteSpeed repository
   yum:
@@ -13,5 +14,5 @@
 
 - name: Install PHP modules
   yum:
-    name: '{{ lsphp_module }}'
+    name: '{{ olsws_lsphp_packages }}'
     state: present
