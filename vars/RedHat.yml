@@ -1,5 +1,9 @@
 ---
-lsphp_module:
+
+__olsws_dependencies:
+  - gnupg
+
+__olsws_lsphp_packages:
   - lsphp72
   - lsphp72-common
   - lsphp72-devel
