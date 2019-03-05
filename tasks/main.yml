@@ -5,6 +5,16 @@
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_os_family }}.yml"
 
+- name: Define OpenLiteSpeed Dependencies
+  set_fact:
+    olsws_dependencies: "{{ __olsws_dependencies }}"
+  when: olsws_dependencies is not defined
+
+- name: Define OpenLiteSpeed LSPHP Packages
+  set_fact:
+    olsws_lsphp_packages: "{{ __olsws_lsphp_packages }}"
+  when: olsws_lsphp_packages is not defined
+
 - name: Install OpenLiteSpeed
   include_tasks: 'install-{{ ansible_os_family }}.yml'
   tags: ['openlitespeed-install']
