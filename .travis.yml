@@ -5,7 +5,7 @@ cache: pip
 
 env:
   global:
-    - ROLE_NAME: mod_pagespeed
+    - ROLE_NAME: openlitespeed
   matrix:
     - MOLECULE_DISTRO: centos7
     - MOLECULE_DISTRO: debian9
@@ -17,8 +17,8 @@ install:
 before_script:
   # Use actual Ansible Galaxy role name for the project directory.
   - cd ../
-  - mv ansible-role-$ROLE_NAME cloudweeb.$ROLE_NAME
-  - cd cloudweeb.$ROLE_NAME
+  - mv ansible-role-$ROLE_NAME tosabyte.$ROLE_NAME
+  - cd tosabyte.$ROLE_NAME
 
 script:
   # Run tests.
