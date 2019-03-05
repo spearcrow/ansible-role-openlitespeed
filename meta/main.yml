@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  role_name: openlitespeed
+  author: Agnesius Santo Naibaho
+  description: Install OpenLiteSpeed web server
+
+  license: MIT
+
+  min_ansible_version: 2.7
+
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Debian
+      versions:
+        - stretch
+
+  galaxy_tags:
+    - openlitespeed
+    - web
+    - webserver
+    - lsws
+
+dependencies: []
